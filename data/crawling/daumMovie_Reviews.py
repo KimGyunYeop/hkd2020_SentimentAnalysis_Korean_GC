@@ -6,7 +6,7 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 import time
 
-chromeDriver="C://Users//ehrqo//Downloads//chromedriver_win32//chromedriver.exe"
+chromeDriver = "C:\\Users\\parksoyoung\\Downloads\\chromedriver_win32\\chromedriver.exe"
 driver = webdriver.Chrome(chromeDriver)
 
 total_content_pos = []
@@ -80,7 +80,7 @@ while True:
             content = soup.find_all("p", {'class': 'desc_review'})
             for c in range(len(content)):
                 content[c] = content[c].text
-                content[c] = content[c].replace("	", "").replace("\n", "")
+                content[c] = content[c].replace("   ", "").replace("\n", "")
                 if len(content[c]) > 2:
                     content[c] = content[c][45:]
                     content[c] = content[c][:len(content[c])-40]
@@ -95,13 +95,13 @@ while True:
                 if rate[n] >= 8:
                     total_score.append(1)
                     total_content_pos.append(content[n])
-                else:
+                elif rate[n] <= 4:
                     total_score.append(0)
                     total_content_neg.append(content[n])
 
             time.sleep(0.1)
 
-    if len(total_content_neg) > 25000:
+    if len(total_content_neg) > 13000:
         break
     k += 1
 
@@ -114,4 +114,4 @@ result = pd.DataFrame()
 result["label"] = total_score
 result["reviews"] = total_content
 
-result.to_csv("daumMovie_Reviews.txt", encoding="utf8", sep="\t")
+result.to_csv("daumMovie_Reviews_v2_12.txt", encoding="utf8", sep="\t")
