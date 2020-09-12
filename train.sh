@@ -1,0 +1,1 @@
+python3 train.py --task nsmc --config_file koelectra-base.json --result_dir EMB2_LSTM --model_mode EMB2_LSTM --gpu 0
