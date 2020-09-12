@@ -165,6 +165,8 @@ DATASET_LIST = {
     "LSTM_ATT_MIX": BaseDataset,
     "LSTM_ATT_MIX_NEG": BaseDataset,
 
+    "KOSAC_LSTM_ATT": KOSACDataset,
+
     "EMB2_LSTM": BaseDataset,
     "EMB1_LSTM2" : BaseDataset,
 
