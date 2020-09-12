@@ -20,8 +20,6 @@ class BaseDataset(Dataset):
         elif "test" in mode:
             data_path = os.path.join(args.data_dir, args.task, args.test_file)
         self.dataset = pd.read_csv(data_path, encoding="utf8", sep="\t")
-        if "small" in mode:
-            self.dataset = self.dataset[:10000]
 
     def __len__(self):
         return len(self.dataset)
@@ -50,8 +48,6 @@ class KOSACDataset(Dataset):
             data_path = os.path.join(args.data_dir, args.task, args.test_file)
 
         self.dataset = pd.read_csv(data_path, encoding="utf8", sep="\t")
-        if "small" in mode:
-            self.dataset = self.dataset[:10000]
         self.polarities, self.intensities = self.get_sentiment_data(self.dataset)
 
     def convert_sentiment_to_ids(self, mode, all_labels):
