@@ -18,7 +18,7 @@ class BaseDataset(Dataset):
         elif "dev" in mode:
             data_path = os.path.join(args.data_dir, args.data_dir,args.task,  args.dev_file)
         elif "test" in mode:
-            data_path = os.path.join(args.data_dir, args.task, args.test_file)
+            data_path = os.path.join(args.data_dir, args.data_dir,args.task, args.test_file)
         self.dataset = pd.read_csv(data_path, encoding="utf8", sep="\t")
 
     def __len__(self):
