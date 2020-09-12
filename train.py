@@ -17,9 +17,7 @@ from transformers import (
 #test
 from datasets import DATASET_LIST
 from model import *
-from processor import seq_cls_load_and_cache_examples as load_and_cache_examples
 from processor import seq_cls_output_modes as output_modes
-from processor import seq_cls_processors as processors
 from processor import seq_cls_tasks_num_labels as tasks_num_labels
 from src import (
     CONFIG_CLASSES,
@@ -235,8 +233,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     eval_loss = eval_loss / nb_eval_steps
     if output_modes[args.task] == "classification":
         preds = np.argmax(preds, axis=1)
-    elif output_modes[args.task] == "regression":
-        preds = np.squeeze(preds)
+
     result = compute_metrics(args.task, out_label_ids, preds)
     results.update(result)
 
@@ -277,20 +274,15 @@ def main(cli_args):
     init_logger()
     set_seed(args)
 
-    processor = processors[args.task](args)
-    labels = processor.get_labels()
-    if output_modes[args.task] == "regression":
-        config = CONFIG_CLASSES[args.model_type].from_pretrained(
-            args.model_name_or_path,
-            num_labels=tasks_num_labels[args.task]
-        )
-    else:
+    labels = ["0", "1"]
+    if output_modes[args.task] == "classification":
         config = CONFIG_CLASSES[args.model_type].from_pretrained(
             args.model_name_or_path,
             num_labels=tasks_num_labels[args.task],
             id2label={str(i): label for i, label in enumerate(labels)},
             label2id={label: i for i, label in enumerate(labels)},
         )
+
     tokenizer = TOKENIZER_CLASSES[args.model_type].from_pretrained(
         args.model_name_or_path,
         do_lower_case=args.do_lower_case

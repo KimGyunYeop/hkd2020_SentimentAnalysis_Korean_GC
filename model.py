@@ -2265,107 +2265,6 @@ class EMB1_LSTM2(nn.Module):
         return result
 
 
-class CHAR_LSTM(nn.Module):
-    def __init__(self, model_type, model_name_or_path, config):
-        super(CHAR_LSTM, self).__init__()
-        self.emb = MODEL_ORIGINER[model_type].from_pretrained(
-            model_name_or_path,
-            config=config)
-        self.char_emb_lstm = nn.LSTM(768, 768, batch_first=True, bidirectional=False)
-        self.lstm = nn.LSTM(768, 768, batch_first=True, bidirectional=False)
-        self.lstm_dropout = nn.Dropout(0.2)
-        self.dense = nn.Linear(768, 768)
-        self.dropout = nn.Dropout(0.2)
-        self.out_proj = nn.Linear(768, 2)
-        self.char_emb = None
-
-    def forward(self, input_ids, attention_mask, labels, token_type_ids, char_token_data, word_token_data):
-        # print(input_ids)
-        outputs = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
-        for line_index, line in enumerate(word_token_data):
-            count = 0
-            for word_tok in line:
-                word_emb = self.char_emb_lstm(outputs[line_index, count:count + len(word_tok), :])
-
-        outputs, (h, c) = self.lstm(outputs[0])
-
-        outputs = self.dense(outputs[:, -1, :])
-        outputs = self.dropout(outputs)
-        outputs = self.out_proj(outputs)
-
-        loss_fct = nn.CrossEntropyLoss()
-        loss = loss_fct(outputs.view(-1, 2), labels.view(-1))
-        # print(loss.shape)
-        # print(loss)
-        # print(len(outputs))
-        # print(outputs.shape)
-
-        result = (loss, outputs)
-
-        return result
-
-class EMB_ATT_LSTM_ATT(nn.Module):
-    def __init__(self, model_type, model_name_or_path, config):
-        super(EMB_ATT_LSTM_ATT, self).__init__()
-        self.emb = MODEL_ORIGINER[model_type].from_pretrained(
-            model_name_or_path,
-            config=config)
-        self.lstm = nn.LSTM(768, 768, batch_first=True, bidirectional=False, dropout=0.2)
-
-        #sentiment module
-        self.word_dense = nn.Linear(768, 2)
-        self.sentiment_embedding = nn.Embedding(2, 768)
-        self.softmax = nn.Softmax(dim=-1)
-
-        # attention module
-        self.att_w = nn.Parameter(torch.randn(1, 768, 1))
-
-        self.dense = nn.Linear(768, 768)
-        self.dropout = nn.Dropout(0.2)
-        self.out_proj = nn.Linear(768, 2)
-        self.gelu = nn.GELU()
-
-    def attention_net(self, lstm_output, input):
-        batch_size, seq_len = input.shape
-
-        att = torch.bmm(torch.tanh(lstm_output),
-                        self.att_w.repeat(batch_size, 1, 1))
-        att = F.softmax(att, dim=1)  # att(batch_size, seq_len, 1)
-        att = torch.bmm(lstm_output.transpose(1, 2), att).squeeze(2)
-        attn_output = torch.tanh(att)  # attn_output(batch_size, lstm_dir_dim)
-        return attn_output
-
-    def sentiment_net(self, lstm_outputs):
-        result = self.word_dense(torch.tanh(lstm_outputs))
-        sig_output = self.softmax(result)
-        argmax_result = torch.argmax(sig_output,dim=-1)
-        emb_result = self.sentiment_embedding(argmax_result)
-        senti_output = self.gelu(lstm_outputs + emb_result)
-        return senti_output
-
-    def forward(self, input_ids, attention_mask, labels, token_type_ids):
-        # embedding
-        emb_output = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
-
-        sentiment_outputs = self.sentiment_net(emb_output[0])
-
-        outputs, _ = self.lstm(sentiment_outputs)
-
-        # attention
-        attention_outputs = self.attention_net(outputs,input_ids)
-
-        outputs = self.dense(attention_outputs)
-        outputs = self.gelu(outputs)
-        outputs = self.dropout(outputs)
-        outputs = self.out_proj(outputs)
-
-        loss_fct = nn.CrossEntropyLoss()
-        loss = loss_fct(outputs.view(-1, 2), labels.view(-1))
-
-        result = (loss, outputs)
-
-        return result
-
 class EMB_ATT_LSTM_ATT_ver2(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
         super(EMB_ATT_LSTM_ATT_ver2, self).__init__()
@@ -2640,68 +2539,6 @@ class EMB_ATT_LSTM_ATT_ver2_NEG(nn.Module):
 
         return result
 
-class EMB_CLS_LSTM_ATT(nn.Module):
-    def __init__(self, model_type, model_name_or_path, config):
-        super(EMB_CLS_LSTM_ATT, self).__init__()
-        self.emb = MODEL_ORIGINER[model_type].from_pretrained(
-            model_name_or_path,
-            config=config)
-        self.maxlen = 50
-        self.lstm = nn.LSTM(self.maxlen-2, 768, batch_first=True, bidirectional=False, dropout=0.2)
-
-        #sentiment module
-
-        self.word_dense = nn.Linear(self.maxlen-2, 2)
-        self.sentiment_embedding = nn.Embedding(2, self.maxlen-2)
-
-        # attention module
-        self.dense_1 = nn.Linear(768, 100)
-        self.dense_2 = nn.Linear(100, 1)
-        self.softmax = nn.Softmax(dim=-1)
-
-        self.dropout = nn.Dropout(0.2)
-        self.out_proj = nn.Linear(768, 2)
-
-    def attention_net(self, lstm_outputs):
-        M = torch.tanh(self.dense_1(lstm_outputs))
-        wM_output = self.dense_2(M).squeeze()
-        a = self.softmax(wM_output)
-        c = lstm_outputs.transpose(1, 2).bmm(a.unsqueeze(-1)).squeeze()
-        att_output = torch.tanh(c)
-
-        return att_output
-
-    def sentiment_net(self, lstm_outputs):
-        result = self.word_dense(lstm_outputs)
-        sig_output = self.softmax(result)
-        argmax_result = torch.argmax(sig_output,dim=-1)
-        emb_result = self.sentiment_embedding(argmax_result)
-        senti_output = lstm_outputs * emb_result
-        return senti_output
-
-    def forward(self, input_ids, attention_mask, labels, token_type_ids):
-        # embedding
-        emb_output = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
-        CLS_output = emb_output[0][:,0,:].unsqueeze(-1).repeat(1,1,self.maxlen-2)
-        emb_total_output = emb_output[0][:,1:-1,:].bmm(CLS_output)
-
-        sentiment_outputs = self.sentiment_net(emb_total_output)
-
-        outputs, _ = self.lstm(sentiment_outputs)
-
-        # attention
-        attention_outputs = self.attention_net(outputs)
-
-        outputs = self.dropout(attention_outputs)
-        outputs = self.out_proj(outputs)
-
-        loss_fct = nn.CrossEntropyLoss()
-        loss = loss_fct(outputs.view(-1, 2), labels.view(-1))
-
-        result = (loss, outputs)
-
-        return result
-
 
 MODEL_LIST = {
     "BASEELECTRA": BASEELECTRA,
@@ -2753,7 +2590,6 @@ MODEL_LIST = {
     "EMB1_LSTM2": EMB1_LSTM2,
     "LSTM_ATT_NEG": LSTM_ATT_NEG,
 
-    "EMB_ATT_LSTM_ATT": EMB_ATT_LSTM_ATT,
     "EMB_ATT_LSTM_ATT_ver2": EMB_ATT_LSTM_ATT_ver2,
     "EMB_ATT_LSTM_ATT_ver2_NEG": EMB_ATT_LSTM_ATT_ver2_NEG,
     "EMB_CLS_LSTM_ATT": EMB_CLS_LSTM_ATT,
