@@ -14,9 +14,9 @@ class BaseDataset(Dataset):
         self.tokenizer = tokenizer
         self.maxlen = args.max_seq_len
         if "train" in mode:
-            data_path = os.path.join(args.data_dir, args.data_dir, args.train_file)
+            data_path = os.path.join(args.data_dir, args.data_dir, args.data_dir, args.train_file)
         elif "dev" in mode:
-            data_path = os.path.join(args.data_dir, args.data_dir, args.dev_file)
+            data_path = os.path.join(args.data_dir, args.data_dir,args.data_dir,  args.dev_file)
         elif "test" in mode:
             data_path = os.path.join(args.data_dir, args.task, args.test_file)
         self.dataset = pd.read_csv(data_path, encoding="utf8", sep="\t")
@@ -41,9 +41,9 @@ class KOSACDataset(Dataset):
         self.tokenizer = tokenizer
         self.maxlen = args.max_seq_len
         if "train" in mode:
-            data_path = os.path.join(args.data_dir, args.data_dir, args.train_file)
+            data_path = os.path.join(args.data_dir,args.data_dir, args.data_dir, args.train_file)
         elif "dev" in mode:
-            data_path = os.path.join(args.data_dir, args.data_dir, args.dev_file)
+            data_path = os.path.join(args.data_dir,args.data_dir, args.task, args.dev_file)
         elif "test" in mode:
             data_path = os.path.join(args.data_dir, args.task, args.test_file)
 
