@@ -291,17 +291,11 @@ def main(cli_args):
 
     model = MODEL_LIST[cli_args.model_mode](args.model_type, args.model_name_or_path, config)
     model.to(args.device)
-    if cli_args.small == False:
-        # Load dataset
-        train_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="train") if args.train_file else None
-        dev_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="dev") if args.dev_file else None
-        test_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="test") if args.test_file else None
-    else:
-        # Load dataset
-        train_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer,
-                                                          mode="train_small") if args.train_file else None
-        dev_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="dev_small") if args.dev_file else None
-        test_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="test_small") if args.test_file else None
+
+    # Load dataset
+    train_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="train") if args.train_file else None
+    dev_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="dev") if args.dev_file else None
+    test_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="test") if args.test_file else None
 
     args.logging_steps = int(len(train_dataset) / args.train_batch_size) + 2
     args.save_steps = args.logging_steps
