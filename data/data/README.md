@@ -21,7 +21,7 @@
 #samsung_reviews_titles.txt 
 - crawling data about baseball team 'Samsung Lions' fan site's bulletin board - only titles (sports category)
 - crawling with articles posted after the game hours to midnight on the day the game was lost judging them as negative reviews.
-- 10515 rows
+- 10515 rows 
 #samsung_reviews_contents.txt 
 - crawling data about baseball team 'Samsung Lions' fan site's bulletin board - only contents (sports category)
 - crawling with articles posted after the game hours to midnight on the day the game was lost judging them as negative reviews.
