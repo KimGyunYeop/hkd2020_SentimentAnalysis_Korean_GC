@@ -2260,6 +2260,66 @@ class EMB1_LSTM2(nn.Module):
 
         return result
 
+class KOSAC_LSTM_ATT(nn.Module):
+    def __init__(self, model_type, model_name_or_path, config):
+        super(KOSAC_LSTM_ATT, self).__init__()
+        self.emb = MODEL_ORIGINER[model_type].from_pretrained(
+            model_name_or_path,
+            config=config)
+
+        # Embedding
+        self.input_embedding = self.emb.embeddings.word_embeddings
+        self.polarity_embedding = nn.Embedding(5, 768)
+        self.intensity_embedding = nn.Embedding(5, 768)
+
+        self.lstm = nn.LSTM(768, 768, batch_first=True, bidirectional=False)
+        self.lstm_dropout = nn.Dropout(0.2)
+        self.dense = nn.Linear(768, 768)
+        self.dropout = nn.Dropout(0.2)
+        self.out_proj = nn.Linear(768, 2)
+        self.gelu = nn.GELU()
+
+        self.att_w = nn.Parameter(torch.randn(1, 768, 1))
+
+    def re_attention(self, lstm_output, final_h, input):
+        batch_size, seq_len = input.shape
+
+        final_h = final_h.squeeze()
+
+        # final_h.size() = (batch_size, hidden_size)
+        # output.size() = (batch_size, num_seq, hidden_size)
+        # lstm_output(batch_size, seq_len, lstm_dir_dim)
+        att = torch.bmm(torch.tanh(lstm_output),
+                        self.att_w.repeat(batch_size, 1, 1))
+        att = F.softmax(att, dim=1)  # att(batch_size, seq_len, 1)
+        att = torch.bmm(lstm_output.transpose(1, 2), att).squeeze(2)
+        attn_output = torch.tanh(att)  # attn_output(batch_size, lstm_dir_dim)
+        return attn_output
+
+    def forward(self, input_ids, attention_mask, labels, token_type_ids, polarity_ids, intensity_ids):
+        # embedding
+        input_emb_result = self.input_embedding(input_ids)
+        polarity_emb_result = self.polarity_embedding(polarity_ids)
+        intensity_emb_result = self.intensity_embedding(intensity_ids)
+
+        embedding_result = input_emb_result + polarity_emb_result / 100 + intensity_emb_result / 100
+
+        outputs = self.emb(input_ids=None, attention_mask=attention_mask, token_type_ids=token_type_ids,
+                           inputs_embeds=embedding_result)
+        outputs, (h, c) = self.lstm(outputs[0])
+
+        attn_output = self.re_attention(outputs, h, input_ids)
+
+        outputs = self.dense(attn_output)
+        outputs = self.gelu(outputs)
+        outputs = self.dropout(outputs)
+        outputs = self.out_proj(outputs)
+
+        loss_fct = nn.CrossEntropyLoss()
+        loss = loss_fct(outputs.view(-1, 2), labels.view(-1))
+
+        result = (loss, outputs)
+        return result
 
 class EMB_ATT_LSTM_ATT_ver2(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
@@ -2570,6 +2630,8 @@ MODEL_LIST = {
     "EMB2_LSTM": EMB2_LSTM,
     "EMB1_LSTM2": EMB1_LSTM2,
     "LSTM_ATT_NEG": LSTM_ATT_NEG,
+
+    "KOSAC_LSTM_ATT": KOSAC_LSTM_ATT,
 
     "EMB_ATT_LSTM_ATT_ver2": EMB_ATT_LSTM_ATT_ver2,
     "EMB_ATT_LSTM_ATT_ver2_NEG": EMB_ATT_LSTM_ATT_ver2_NEG,
