@@ -49,7 +49,7 @@ def convertFormat(pos, neg, start, idx_idx, f1):
     neg += len(dk_df[dk_df['rating'] == 0])
     return pos, neg, idx_idx, arr_ip
 
-f = open("all_ip.txt", 'w', encoding='utf-8-sig')
+f = open("../data/all_ip.txt", 'w', encoding='utf-8-sig')
 pos = 0
 neg = 0
 pos, neg, idx_idx, arr_ip = convertFormat(pos, neg, 20000000, 0, f1)
