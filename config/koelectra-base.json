@@ -1,5 +1,5 @@
 {
-  "data_dir": "data",
+  "data_dir": "data/data",
   "ckpt_dir": "ckpt",
   "train_file": "nsmc_ratings_train.txt",
   "dev_file": "",

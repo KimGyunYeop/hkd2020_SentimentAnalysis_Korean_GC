@@ -4,17 +4,14 @@ import json
 import logging
 import numpy as np
 import os
-import torch
-import torch.nn.functional as F
 from attrdict import AttrDict
 from fastprogress.fastprogress import master_bar, progress_bar
-from torch import nn
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from transformers import (
     AdamW,
     get_linear_schedule_with_warmup
 )
-#test
+
 from datasets import DATASET_LIST
 from model import *
 from processor import seq_cls_output_modes as output_modes
@@ -23,7 +20,6 @@ from src import (
     CONFIG_CLASSES,
     TOKENIZER_CLASSES,
     MODEL_FOR_SEQUENCE_CLASSIFICATION,
-    MODEL_ORIGINER,
     init_logger,
     set_seed,
     compute_metrics
@@ -272,13 +268,12 @@ def main(cli_args):
     set_seed(args)
 
     labels = ["0", "1"]
-    if output_modes[args.task] == "classification":
-        config = CONFIG_CLASSES[args.model_type].from_pretrained(
-            args.model_name_or_path,
-            num_labels=tasks_num_labels[args.task],
-            id2label={str(i): label for i, label in enumerate(labels)},
-            label2id={label: i for i, label in enumerate(labels)},
-        )
+    config = CONFIG_CLASSES[args.model_type].from_pretrained(
+        args.model_name_or_path,
+        num_labels=2,
+        id2label={str(i): label for i, label in enumerate(labels)},
+        label2id={label: i for i, label in enumerate(labels)},
+    )
 
     tokenizer = TOKENIZER_CLASSES[args.model_type].from_pretrained(
         args.model_name_or_path,
@@ -336,12 +331,11 @@ def main(cli_args):
 if __name__ == '__main__':
     cli_parser = argparse.ArgumentParser()
 
-    cli_parser.add_argument("--task", type=str, required=True)
     cli_parser.add_argument("--config_dir", type=str, default="config")
     cli_parser.add_argument("--config_file", type=str, default="koelectra-base.json")
     cli_parser.add_argument("--result_dir", type=str, required=True)
     cli_parser.add_argument("--model_mode", type=str, required=True, choices=MODEL_LIST.keys())
-    cli_parser.add_argument("--gpu", type=str, required=True)
+    cli_parser.add_argument("--gpu", type=str, default = 0)
 
     cli_args = cli_parser.parse_args()
 
