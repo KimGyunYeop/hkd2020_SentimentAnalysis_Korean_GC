@@ -1,11 +1,8 @@
 import pandas as pd
 
-all_df = pd.read_csv('./data/naverMovie_Reviews_2016.txt', sep='\t')
-all_df = all_df[0:0]
-
 df = pd.read_csv('./data/naverMovie_Reviews_2017.txt', sep='\t')
 df = df.drop_duplicates(subset = ['reviews'])
-all_df = all_df.append(df)
+all_df = df
 pos = df[df['label']==1]
 print(len(pos))
 neg = df[df['label']==0]
@@ -28,7 +25,7 @@ print(len(neg))
 
 pos_sample = pos.sample(n=20000)
 print(len(pos_sample))
-neg_sample = neg.sample(n=20000)
+neg_sample = neg.sample(n=25000)
 print(len(neg_sample))
 
 pos_sample.to_csv('./data/naver_posSample.txt')
