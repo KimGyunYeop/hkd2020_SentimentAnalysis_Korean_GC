@@ -6,7 +6,7 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 import time
 
-chromeDriver = "C:\\Users\\parksoyoung\\Downloads\\chromedriver_win32\\chromedriver.exe"
+chromeDriver = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe"
 driver = webdriver.Chrome(chromeDriver)
 
 total_content_pos = []
