@@ -83,11 +83,9 @@ class AugmentBaseDataset(Dataset):
 
     def __getitem__(self, idx):
         txt = str(self.dataset.at[idx,"review"])
-        print(txt)
         lexicon_words= list(set(self.re_compile_words.findall(txt)))
         for word in lexicon_words:
             txt = txt.replace(word, random.choice(self.lexicon_dic[word]))
-        print(txt)
         data = self.tokenizer(txt, pad_to_max_length=True, max_length=self.maxlen, truncation=True)
         input_ids = torch.LongTensor(data["input_ids"])
         token_type_ids = torch.LongTensor(data["token_type_ids"])
