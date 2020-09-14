@@ -9,7 +9,7 @@
   "save_optimizer": false,
   "do_lower_case": false,
   "do_train": true,
-  "do_eval": true,
+  "do_eval": false,
   "max_seq_len": 50,
   "num_train_epochs": 20,
   "weight_decay": 0.0,
