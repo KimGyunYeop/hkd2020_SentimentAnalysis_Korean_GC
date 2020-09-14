@@ -1,12 +1,8 @@
 import torch
-import torch.nn as nn
 from torch.utils.data import Dataset
 import pandas as pd
 import os
 import pickle
-import numpy as np
-from konlpy.tag import Twitter
-from tqdm import tqdm
 
 class BaseDataset(Dataset):
     def __init__(self, args, tokenizer, mode):

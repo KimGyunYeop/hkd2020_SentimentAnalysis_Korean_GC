@@ -226,7 +226,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds, axis=1)
 
-    result = compute_metrics(args.task, out_label_ids, preds)
+    result = compute_metrics("nsmc", out_label_ids, preds)
     results.update(result)
 
     output_dir = os.path.join(args.output_dir, mode)
@@ -256,9 +256,6 @@ def main(cli_args):
 
     args.output_dir = os.path.join(args.ckpt_dir, cli_args.result_dir)
     args.model_mode = cli_args.model_mode
-
-    if os.path.exists(args.output_dir):
-        raise ValueError("result path is already exist(path = %s)" % args.output_dir)
 
     init_logger()
     set_seed(args)
