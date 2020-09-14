@@ -10,17 +10,6 @@ FROM python:3.7-slim
 
 
 
-ARG result_dir
-ARG model_mode
-ARG gpu
-
-ENV result_dir ${result_dir}
-ENV model_mode ${model_mode}
-ENV gpu ${gpu}
-
-RUN echo ${result_dir}.
-RUN echo ${model_mode}.
-RUN echo ${gpu}.
  # Set the working directory to /app
 
 WORKDIR /app
