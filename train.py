@@ -14,12 +14,9 @@ from transformers import (
 
 from datasets import DATASET_LIST
 from model import *
-from processor import seq_cls_output_modes as output_modes
-from processor import seq_cls_tasks_num_labels as tasks_num_labels
 from src import (
     CONFIG_CLASSES,
     TOKENIZER_CLASSES,
-    MODEL_FOR_SEQUENCE_CLASSIFICATION,
     init_logger,
     set_seed,
     compute_metrics
@@ -227,8 +224,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
             out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
 
     eval_loss = eval_loss / nb_eval_steps
-    if output_modes[args.task] == "classification":
-        preds = np.argmax(preds, axis=1)
+    preds = np.argmax(preds, axis=1)
 
     result = compute_metrics(args.task, out_label_ids, preds)
     results.update(result)
@@ -316,7 +312,7 @@ def main(cli_args):
         logger.info("Evaluate the following checkpoints: %s", checkpoints)
         for checkpoint in checkpoints:
             global_step = checkpoint.split("-")[-1]
-            model = MODEL_FOR_SEQUENCE_CLASSIFICATION[args.model_type].from_pretrained(checkpoint)
+            model = MODEL_LIST[args.model_type].from_pretrained(checkpoint)
             model.to(args.device)
             result = evaluate(args, model, test_dataset, mode="test", global_step=global_step)
             result = dict((k + "_{}".format(global_step), v) for k, v in result.items())

@@ -8,106 +8,24 @@ import numpy as np
 from scipy.stats import pearsonr, spearmanr
 from seqeval.metrics import precision_score, recall_score, f1_score, classification_report
 
-from src import (
-    KoBertTokenizer,
-    HanBertTokenizer,
-    KoCharElectraTokenizer
-)
 from transformers import (
-    BertConfig,
-    DistilBertConfig,
     ElectraConfig,
-    XLMRobertaConfig,
     ElectraTokenizer,
-    XLMRobertaTokenizer,
-    BertForSequenceClassification,
-    DistilBertForSequenceClassification,
-    ElectraForSequenceClassification,
-    XLMRobertaForSequenceClassification,
-    BertForTokenClassification,
-    DistilBertForTokenClassification,
-    ElectraForTokenClassification,
-    XLMRobertaForTokenClassification,
-    BertForQuestionAnswering,
-    DistilBertForQuestionAnswering,
-    ElectraForQuestionAnswering,
-    XLMRobertaForQuestionAnswering,
-    BertModel,
-    DistilBertModel,
-    ElectraModel,
-    XLMRobertaModel
+    ElectraModel
 )
 
 CONFIG_CLASSES = {
-    "kobert": BertConfig,
-    "distilkobert": DistilBertConfig,
-    "hanbert": BertConfig,
-    "koelectra-base": ElectraConfig,
-    "koelectra-small": ElectraConfig,
-    "koelectra-base-v2": ElectraConfig,
-    "koelectra-small-v2": ElectraConfig,
-    "kocharelectra-v2": ElectraConfig,
-    "kocharelectra-base": ElectraConfig,
-    "xlm-roberta": XLMRobertaConfig
+    "koelectra-base": ElectraConfig
 }
 
 TOKENIZER_CLASSES = {
-    "kobert": KoBertTokenizer,
-    "distilkobert": KoBertTokenizer,
-    "hanbert": HanBertTokenizer,
     "koelectra-base": ElectraTokenizer,
-    "koelectra-small": ElectraTokenizer,
-    "koelectra-base-v2": ElectraTokenizer,
-    "koelectra-small-v2": ElectraTokenizer,
-    "kocharelectra-base": KoCharElectraTokenizer,
-    "xlm-roberta": XLMRobertaTokenizer
-}
-
-MODEL_FOR_SEQUENCE_CLASSIFICATION = {
-    "kobert": BertForSequenceClassification,
-    "distilkobert": DistilBertForSequenceClassification,
-    "hanbert": BertForSequenceClassification,
-    "koelectra-base": ElectraForSequenceClassification,
-    "koelectra-small": ElectraForSequenceClassification,
-    "koelectra-base-v2": ElectraForSequenceClassification,
-    "koelectra-small-v2": ElectraForSequenceClassification,
-    "xlm-roberta": XLMRobertaForSequenceClassification
-}
-
-MODEL_FOR_TOKEN_CLASSIFICATION = {
-    "kobert": BertForTokenClassification,
-    "distilkobert": DistilBertForTokenClassification,
-    "hanbert": BertForTokenClassification,
-    "koelectra-base": ElectraForTokenClassification,
-    "koelectra-small": ElectraForTokenClassification,
-    "koelectra-base-v2": ElectraForTokenClassification,
-    "koelectra-small-v2": ElectraForTokenClassification,
-    "xlm-roberta": XLMRobertaForTokenClassification
 }
 
 MODEL_ORIGINER = {
-    "kobert": BertModel,
-    "distilkobert": DistilBertModel,
-    "hanbert": BertModel,
-    "koelectra-base": ElectraModel,
-    "koelectra-small": ElectraModel,
-    "koelectra-base-v2": ElectraModel,
-    "koelectra-small-v2": ElectraModel,
-    "kocharelectra-base": ElectraModel,
-    "xlm-roberta": XLMRobertaModel
+    "koelectra-base": ElectraModel
 }
 
-
-MODEL_FOR_QUESTION_ANSWERING = {
-    "kobert": BertForQuestionAnswering,
-    "distilkobert": DistilBertForQuestionAnswering,
-    "hanbert": BertForQuestionAnswering,
-    "koelectra-base": ElectraForQuestionAnswering,
-    "koelectra-small": ElectraForQuestionAnswering,
-    "koelectra-base-v2": ElectraForQuestionAnswering,
-    "koelectra-small-v2": ElectraForQuestionAnswering,
-    "xlm-roberta": XLMRobertaForQuestionAnswering
-}
 
 
 def init_logger():
