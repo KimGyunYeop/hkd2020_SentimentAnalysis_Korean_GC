@@ -22,6 +22,10 @@ COPY . /app
 
 
 
+ARG result_dir
+ARG model_mode
+ARG gpu
+
 # Install any needed packages specified in requirements.txt
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
