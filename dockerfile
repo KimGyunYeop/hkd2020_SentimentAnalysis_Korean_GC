@@ -10,6 +10,17 @@ FROM python:3.7-slim
 
 
 
+ARG result_dir
+ARG model_mode
+ARG gpu
+
+ENV result_dir ${result_dir}
+ENV model_mode ${model_mode}
+ENV gpu ${gpu}
+
+RUN echo ${result_dir}.
+RUN echo ${model_mode}.
+RUN echo ${gpu}.
  # Set the working directory to /app
 
 WORKDIR /app
@@ -22,9 +33,6 @@ COPY . /app
 
 
 
-ARG result_dir
-ARG model_mode
-ARG gpu
 
 # Install any needed packages specified in requirements.txt
 
@@ -46,4 +54,4 @@ ENV NAME World
 
  # Run app.py when the container launches
 
-CMD ["python", "train.py", "--result_dir StarV_AM --model_mode StarV_AM --gpu 1"]
+CMD python train.py --result_dir $result_dir --model_mode $model_mode --gpu $gpu
