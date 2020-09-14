@@ -111,7 +111,7 @@ list = all_df.values.tolist()
 arr = []
 idx = 0
 ip_f = open("./data/all_ip.txt", encoding='utf-8-sig')
-ori_f = open("./data/nsmc/ratings_train.txt", encoding='utf-8-sig')
+ori_f = open("data/nsmc_ratings_train.txt", encoding='utf-8-sig')
 arr = ori_f.readlines()
 arr_ip = ip_f.readlines()
 for i in range(len(list)):

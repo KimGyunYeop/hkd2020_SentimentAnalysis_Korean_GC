@@ -1,10 +1,9 @@
 {
-  "task": "nsmc",
   "data_dir": "data",
   "ckpt_dir": "ckpt",
-  "train_file": "ratings_train.txt",
+  "train_file": "nsmc_ratings_train.txt",
   "dev_file": "",
-  "test_file": "ratings_test.txt",
+  "test_file": "nsmc_ratings_test.txt",
   "evaluate_test_during_training": true,
   "eval_all_checkpoints": true,
   "save_optimizer": false,
