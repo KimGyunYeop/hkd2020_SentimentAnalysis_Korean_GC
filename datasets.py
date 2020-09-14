@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 import pandas as pd
 import os
-import pickle
+import re
 
 class BaseDataset(Dataset):
     def __init__(self, args, tokenizer, mode):
@@ -97,7 +97,7 @@ class AugmentBaseDataset(Dataset):
 DATASET_LIST = {
     "StarV_ANN": BaseDataset,
     "StarV_AM" : BaseDataset,
-    "KOSAC_LSTM_ATT": KOSAC_LSTM_ATT,
-    "VoSenti_for_Word": BaseDataset,
+    "KOSAC_LSTM_ATT": BaseDataset,
+    "VoSenti_for_Word": AugmentBaseDataset,
     "ENSEMBLE_MODEL" : BaseDataset
 }
