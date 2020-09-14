@@ -1,12 +1,12 @@
 import pandas as pd
 
-f1 = open("../data/sports_auc.txt", encoding='utf-8-sig')
-f2 = open("../data/sports_auc_2.txt", encoding='utf-8-sig')
-f3 = open("../data/sports_auc_basketball.txt", encoding='utf-8-sig')
-f4 = open("../data/sports_auc_football.txt", encoding='utf-8-sig')
-f5 = open("../data/sports_auc_football_2.txt", encoding='utf-8-sig')
-f6 = open("../data/sports_auc_golf.txt", encoding='utf-8-sig')
-f7 = open("../data/sports_interpark_Reviews.txt", encoding='utf-8-sig')
+f1 = open("./data/sports_auc.txt", encoding='utf-8-sig')
+f2 = open("./data/sports_auc_2.txt", encoding='utf-8-sig')
+f3 = open("./data/sports_auc_basketball.txt", encoding='utf-8-sig')
+f4 = open("./data/sports_auc_football.txt", encoding='utf-8-sig')
+f5 = open("./data/sports_auc_football_2.txt", encoding='utf-8-sig')
+f6 = open("./data/sports_auc_golf.txt", encoding='utf-8-sig')
+f7 = open("./data/sports_interpark_Reviews.txt", encoding='utf-8-sig')
 # convert format of sportsReview
 def convertFormat(pos, neg, start, idx_idx, f1):
     dk_df = pd.DataFrame(columns = ['review_id', 'review', 'rating'])
@@ -49,7 +49,7 @@ def convertFormat(pos, neg, start, idx_idx, f1):
     neg += len(dk_df[dk_df['rating'] == 0])
     return pos, neg, idx_idx, arr_ip
 
-f = open("../data/all_ip.txt", 'w', encoding='utf-8-sig')
+f = open("./data/all_ip.txt", 'w', encoding='utf-8-sig')
 pos = 0
 neg = 0
 pos, neg, idx_idx, arr_ip = convertFormat(pos, neg, 20000000, 0, f1)
