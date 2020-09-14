@@ -7,3 +7,5 @@ consol_output/*
 prec.py
 
 _pycache_
+
+data/data/korean_lexicon/*
