@@ -1,1 +1,1 @@
-python3 train.py --task nsmc --config_file koelectra-base.json --result_dir EMB2_LSTM --model_mode EMB2_LSTM --gpu 0
+python3 train.py ---result_dir StarV_AM --model_mode StarV_AM --gpu 1
