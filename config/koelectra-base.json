@@ -1,7 +1,7 @@
 {
   "data_dir": "data/data",
   "ckpt_dir": "ckpt",
-  "train_file": "nsmc_ratings_train.txt",
+  "train_file": "final_train.txt",
   "dev_file": "",
   "test_file": "nsmc_ratings_test.txt",
   "evaluate_test_during_training": true,
@@ -11,7 +11,7 @@
   "do_train": true,
   "do_eval": false,
   "max_seq_len": 50,
-  "num_train_epochs": 20,
+  "num_train_epochs": 100,
   "weight_decay": 0.0,
   "gradient_accumulation_steps": 1,
   "adam_epsilon": 1e-8,
