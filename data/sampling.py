@@ -15,7 +15,16 @@ pos = df[df['label']==1]
 print(len(pos))
 neg = df[df['label']==0]
 print(len(neg))
+
 df = pd.read_csv('./data/naverMovie_Reviews_2019.txt', sep='\t')
+df = df.drop_duplicates(subset = ['reviews'])
+all_df = all_df.append(df)
+pos = all_df[all_df['label']==1]
+print(len(pos))
+neg = all_df[all_df['label']==0]
+print(len(neg))
+
+df = pd.read_csv('./data/naverMovie_Reviews_2020.txt', sep='\t')
 df = df.drop_duplicates(subset = ['reviews'])
 all_df = all_df.append(df)
 pos = all_df[all_df['label']==1]
