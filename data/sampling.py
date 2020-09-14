@@ -1,11 +1,7 @@
 import pandas as pd
 
 all_df = pd.read_csv('./data/naverMovie_Reviews_2016.txt', sep='\t')
-all_df = all_df.drop_duplicates(subset = ['reviews'])
-pos = all_df[all_df['label']==1]
-print(len(pos))
-neg = all_df[all_df['label']==0]
-print(len(neg))
+all_df = all_df[0:0]
 
 df = pd.read_csv('./data/naverMovie_Reviews_2017.txt', sep='\t')
 df = df.drop_duplicates(subset = ['reviews'])
