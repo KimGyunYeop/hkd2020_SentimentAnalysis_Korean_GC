@@ -49,4 +49,4 @@ ENV NAME World
 
  # Run app.py when the container launches
 
-CMD python train.py --result_dir $result_dir --model_mode $model_mode --gpu $gpu
+CMD ["python","train.py"]
