@@ -1,0 +1,1 @@
+python3 test.py --task nsmc --config_file koelectra-base.json --result_dir LSTM_ATT_KOSAC_last --model_mode LSTM_ATT_KOSAC --gpu 0
