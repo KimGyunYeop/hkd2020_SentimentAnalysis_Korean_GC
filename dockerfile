@@ -35,7 +35,8 @@ EXPOSE 80
 
 
  # Define environment variable
-
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
 ENV NAME World
 ENV RESULT_DIR None
 ENV MODEL_MODE None
