@@ -6,7 +6,7 @@
 
 # Use an official Python runtime as a parent image
 
-FROM pytorch/pytorch:1.5.1-cuda10.1
+FROM pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel
 
 
 
