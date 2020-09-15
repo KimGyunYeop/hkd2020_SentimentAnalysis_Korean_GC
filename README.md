@@ -12,19 +12,19 @@
 # USAGE   
 config/koelectra-base.json을 통해 모델의 parameter를 조정 가능   
 ### PYTHON   
-#### train    
+#### train & eval    
 ```
-pip install -r requirement.txt   
+pip install -r requirements.txt   
 python3 train.py --result_dir train --model_mode VoSenti_for_Word --gpu 0
 ```   
 
 #### test    
 ```
-pip install -r requirement.txt   
+pip install -r requirements.txt   
 python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsmc_ratings_train.txt --gpu 0
 ```   
 
-### DOCKER(ONLY TRAIN)   
+### DOCKER(ONLY TRAIN&EVAL)   
 --gpus all은 container에서 gpu를 사용하기위한 NVIDIA-DOCKER 명령어 이므로 NVIDIA-DOCKER와 nvidia-container-toolkit필요 [link](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md#quickstart)
 ```
 sudo docker build --tag hkd2020 .   
