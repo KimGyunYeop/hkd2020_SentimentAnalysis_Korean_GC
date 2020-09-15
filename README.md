@@ -3,7 +3,7 @@
 
 # DESCRIPTION   
 
-### Star-N    
+### Star-Label    
 기존의 downstream task의 feature가 상대적으로 덜 입력되던 pre-trained model에 downstream의 label에 따른 feature를 더 적용시킬 수 있도록 제작한 model   
 
 ### VoSenti   
