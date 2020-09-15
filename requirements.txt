@@ -1,6 +1,5 @@
-torch==1.5.1
+torch==1.5.1+cu101
 torchvision  --find-links https://download.pytorch.org/whl/torch_stable.html
-cudatoolkit==10.1
 transformers==3.0.2
 seqeval
 fastprogress
