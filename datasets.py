@@ -42,6 +42,7 @@ class AugmentBaseDataset(Dataset):
             data_path = os.path.join(args.data_dir, args.dev_file)
         elif "test" in mode:
             data_path = os.path.join(args.data_dir, args.test_file)
+        print(data_path)
         self.dataset = pd.read_csv(data_path, encoding="utf8", sep="\t")
         if "small" in mode:
             self.dataset = self.dataset[:10000]
