@@ -1,39 +1,22 @@
 import argparse
-import json
 import logging
 import os
-import glob
 
 import numpy as np
-import torch
-import torch.nn.functional as F
-from torch import nn
-from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from fastprogress.fastprogress import master_bar, progress_bar
-from attrdict import AttrDict
+from torch.utils.data import DataLoader, SequentialSampler
+from fastprogress.fastprogress import progress_bar
 from datasets import DATASET_LIST
 import pandas as pd
 
 from model import *
 
-from transformers import (
-    AdamW,
-    get_linear_schedule_with_warmup
-)
 
 from src import (
     CONFIG_CLASSES,
     TOKENIZER_CLASSES,
-    MODEL_FOR_SEQUENCE_CLASSIFICATION,
-    MODEL_ORIGINER,
     init_logger,
-    set_seed,
     compute_metrics
 )
-from processor import seq_cls_load_and_cache_examples as load_and_cache_examples
-from processor import seq_cls_tasks_num_labels as tasks_num_labels
-from processor import seq_cls_processors as processors
-from processor import seq_cls_output_modes as output_modes
 
 logger = logging.getLogger(__name__)
 
@@ -107,10 +90,8 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
             out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
 
     eval_loss = eval_loss / nb_eval_steps
-    if output_modes[args.task] == "classification":
-        preds = np.argmax(preds, axis=1)
-    elif output_modes[args.task] == "regression":
-        preds = np.squeeze(preds)
+    preds = np.argmax(preds, axis=1)
+
     result = compute_metrics(args.task, out_label_ids, preds)
     results.update(result)
 
@@ -136,39 +117,24 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
 
 def main(cli_args):
     # Read from config file and make args
-
-    result_path = os.path.join("ckpt", cli_args.result_dir, "test")
-    epoch_list = os.listdir(result_path)
-
-    acc_dict = dict()
-    for i in epoch_list:
-        with open(os.path.join(result_path, i), "r") as fp:
-            acc_dict[i] = float(fp.readline().split()[-1])
-
-    acc2step = {v: k for k, v in acc_dict.items()}
     max_checkpoint = "checkpoint-best"
 
     args = torch.load(os.path.join("ckpt", cli_args.result_dir, max_checkpoint, "training_args.bin"))
     logger.info("Testing parameters {}".format(args))
 
     args.model_mode = cli_args.model_mode
+    args.device = "cuda:"+str(cli_args.gpu)
 
     init_logger()
 
-    processor = processors[args.task](args)
-    labels = processor.get_labels()
-    if output_modes[args.task] == "regression":
-        config = CONFIG_CLASSES[args.model_type].from_pretrained(
-            args.model_name_or_path,
-            num_labels=tasks_num_labels[args.task]
-        )
-    else:
-        config = CONFIG_CLASSES[args.model_type].from_pretrained(
-            args.model_name_or_path,
-            num_labels=tasks_num_labels[args.task],
-            id2label={str(i): label for i, label in enumerate(labels)},
-            label2id={label: i for i, label in enumerate(labels)},
-        )
+    labels = ["0", "1"]
+    config = CONFIG_CLASSES[args.model_type].from_pretrained(
+        args.model_name_or_path,
+        num_labels=2,
+        id2label={str(i): label for i, label in enumerate(labels)},
+        label2id={label: i for i, label in enumerate(labels)},
+    )
+
     tokenizer = TOKENIZER_CLASSES[args.model_type].from_pretrained(
         args.model_name_or_path,
         do_lower_case=args.do_lower_case
@@ -181,16 +147,12 @@ def main(cli_args):
     logger.info("Testing model checkpoint to {}".format(max_checkpoint))
     global_step = max_checkpoint.split("-")[-1]
     model = MODEL_LIST[cli_args.model_mode](args.model_type, args.model_name_or_path, config)
-    print(args.device)
     model.load_state_dict(torch.load(os.path.join("ckpt", cli_args.result_dir, max_checkpoint, "training_model.bin")))
 
     model.to(args.device)
 
     if "KOSAC" in args.model_mode:
         preds, labels, result, txt_all, polarity_ids, intensity_ids = evaluate(args, model, test_dataset, mode="test",
-                                                                             global_step=global_step)
-    elif "KNU" in args.model_mode:
-        preds, labels, result, txt_all, polarity_ids = evaluate(args, model, test_dataset, mode="test",
                                                                              global_step=global_step)
     else:
         preds, labels, result, txt_all= evaluate(args, model, test_dataset, mode="test",
@@ -208,10 +170,6 @@ def main(cli_args):
         tok_an = [list(zip(x, test_dataset.convert_ids_to_polarity(y)[:len(x) + 1], test_dataset.convert_ids_to_intensity(z)[:len(x) + 1])) for x, y, z in
                   zip(decode_result, polarity_ids, intensity_ids)]
         pred_and_labels["tokenizer_analysis(token,polarity,intensitiy)"] = tok_an
-    if "KNU" in args.model_mode:
-        tok_an = [list(zip(x, y[:len(x) + 1])) for x, y in
-                  zip(decode_result, polarity_ids)]
-        pred_and_labels["tokenizer_analysis(token,polarity)"] = tok_an
 
     pred_and_labels.to_excel(os.path.join("ckpt", cli_args.result_dir, "test_result_" + max_checkpoint + ".xlsx"),
                              encoding="cp949")
@@ -220,12 +178,11 @@ def main(cli_args):
 if __name__ == '__main__':
     cli_parser = argparse.ArgumentParser()
 
-    cli_parser.add_argument("--task", type=str, required=True)
     cli_parser.add_argument("--config_dir", type=str, default="config")
-    cli_parser.add_argument("--config_file", type=str, required=True)
+    cli_parser.add_argument("--config_file", type=str, default="koelectra-base.json")
     cli_parser.add_argument("--result_dir", type=str, required=True)
     cli_parser.add_argument("--model_mode", type=str, required=True, choices=MODEL_LIST.keys())
-    cli_parser.add_argument("--gpu", type=str, required=True)
+    cli_parser.add_argument("--gpu", type=str, default = 0)
 
     cli_args = cli_parser.parse_args()
 
