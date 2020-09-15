@@ -27,7 +27,7 @@ python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsm
 ### DOCKER(ONLY TRAIN)
 ```
 sudo docker build --tag hkd2020 .   
-docker run --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
+sudo docker run --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
 ```   
 
 # RESULT   
