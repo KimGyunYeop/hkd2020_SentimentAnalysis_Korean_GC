@@ -24,6 +24,11 @@ sudo docker run hkd2020
 ```   
 
 # RESULT   
+|모델|batch size|Dev 결과(정확도)|
+|:---:|:---:|:---:|
+|m1|128|acc1|
+|m2|128|acc2|
+|m3|128|acc3|
 
 # REFERENCE     
 [KoELECTRA](https://github.com/monologg/KoELECTRA)   
