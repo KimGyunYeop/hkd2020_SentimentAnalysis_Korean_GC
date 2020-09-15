@@ -44,4 +44,4 @@ ENV result_dir=default_token
 
  # Run app.py when the container launches
 
-CMD ["python","train.py"," --result_dir $result_dir"," --model_mode $model_mode"]
+CMD ["sh","-c","python","train.py"," --result_dir $result_dir"," --model_mode $model_mode"]
