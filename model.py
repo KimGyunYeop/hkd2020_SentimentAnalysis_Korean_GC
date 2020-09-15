@@ -35,6 +35,7 @@ class Star_Label_AM(nn.Module):
         loss_fct = nn.CrossEntropyLoss()
         loss1 = loss_fct(outputs.view(-1, 2), labels.view(-1))
 
+        #make 2 data for match all2all data
         x1 = embs[:, 0, :].squeeze()
         x1 = x1.repeat(1, batch_size)
         x1 = x1.view(batch_size, batch_size, w2v_dim)
@@ -49,6 +50,7 @@ class Star_Label_AM(nn.Module):
                         x2.view(-1, w2v_dim),
                         y.view(-1))
 
+        #calculate loss with same label's represntation vector
         star = self.star_emb(labels)
 
         loss3 = loss_fn(embs[:, 0, :].squeeze(),
@@ -86,6 +88,7 @@ class Star_Label_ANN(nn.Module):
         loss_fct = nn.CrossEntropyLoss()
         loss1 = loss_fct(outputs.view(-1, 2), labels.view(-1))
 
+        #get data each label
         labels_2 = labels.type(torch.FloatTensor).to(self.config.device)
         for i in range(len(labels_2)):
             labels_2[i] = labels_2[i].double() * 2 - 1
@@ -98,6 +101,7 @@ class Star_Label_ANN(nn.Module):
         len_p = len(x1_p)
         len_n = len(x1_n)
 
+        #calculate negative sampling loss
         loss_fn = torch.nn.CosineEmbeddingLoss(reduction='mean', margin=-0.5)
         if len_p != 0 and len_n != 0:
             x1_p = x1_p.squeeze()
@@ -111,9 +115,8 @@ class Star_Label_ANN(nn.Module):
                             x1_n.view(-1, w2v_dim),
                             y.view(-1))
 
-        star = torch.zeros(batch_size, 2).to(self.config.device)
-        star[range(batch_size), labels] = 1
-        star = self.star_emb(star)
+        #calculate loss with same label's represntation vector
+        star = self.star_emb(labels)
 
         loss3 = loss_fn(embs[:, 0, :].squeeze(),
                         star,
