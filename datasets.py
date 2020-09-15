@@ -99,6 +99,6 @@ DATASET_LIST = {
     "StarV_ANN": BaseDataset,
     "StarV_AM" : BaseDataset,
     "KOSAC_LSTM_ATT": BaseDataset,
-    "VoSenti_for_Word": AugmentBaseDataset,
+    "VoSenti_for_Word": BaseDataset,
     "ENSEMBLE_MODEL" : BaseDataset
 }

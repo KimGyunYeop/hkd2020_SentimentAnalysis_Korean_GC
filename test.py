@@ -5,11 +5,10 @@ import os
 import numpy as np
 from torch.utils.data import DataLoader, SequentialSampler
 from fastprogress.fastprogress import progress_bar
-from datasets import DATASET_LIST
+from datasets import DATASET_LIST, BaseDataset
 import pandas as pd
 
 from model import *
-from attrdict import AttrDict
 import json
 
 from src import (
@@ -150,7 +149,7 @@ def main(cli_args):
     config.device = args.device
     print(args.test_file)
     # Load dataset
-    test_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="test") if args.test_file else None
+    test_dataset = BaseDataset(args, tokenizer, mode="test") if args.test_file else None
 
     logger.info("Testing model checkpoint to {}".format(max_checkpoint))
     global_step = max_checkpoint.split("-")[-1]
