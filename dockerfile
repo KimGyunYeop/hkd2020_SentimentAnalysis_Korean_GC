@@ -44,4 +44,4 @@ ENV MODEL_MODE=default_token
 
  # Run app.py when the container launches
 
-CMD [sh ,train.sh, $RESULT_DIR, $MODEL_MODE]
+CMD ["sh" ,"train.sh", "$RESULT_DIR", "$MODEL_MODE"]
