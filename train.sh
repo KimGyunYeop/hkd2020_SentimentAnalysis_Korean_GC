@@ -1,1 +1,1 @@
-python3 train.py --result_dir StarV_AM --model_mode StarV_AM --gpu 1
+python3 train.py --result_dir $0 --model_mode $1 --gpu $2
