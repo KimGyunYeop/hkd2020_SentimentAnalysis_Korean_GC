@@ -54,6 +54,23 @@
 - crawling articles that had been posted until midnight on the day of the game
 - rows
 
+#sports_auc.txt
+- crawling data about reviews from spectators of  "키움 vs. sk" baseball game (interpark ticket)
+
+#sports_auc2.txt
+- crawling data about reviews from spectators of  "두산 vs. sk" baseball game (interpark ticket)
+
+#sports_auc_basketball.txt
+- crawling data about reviews from spectators of football game which "전주 KCC 이지스 프로농구단" has participated (interpark ticket)
+
+#sports_auc_football.txt
+- crawling data about reviews from spectators of football game which "수원FC 프로축구단" has participated (interpark ticket)
+
+#sports_auc_football_2.txt
+- crawling data about reviews from spectators of football game which "대전하나시티즌" has participated (interpark ticket)
+
+#sports_auc_golf.txt
+- crawling data about reviews from spectators of "기아자동차 제33회 한국여자오픈 골프선수권대회" (interpark ticket)
 
 #REFERENCE   
 [네이버 영화](https://movie.naver.com/)
@@ -65,3 +82,4 @@
 [키움 히어로즈](https://www.heroesbaseball.co.kr/index.do)
 [애니플러스](http://www.aniplustv.com/#/default.asp?gCode=MA&sCode=000)
 [라프텔](https://laftel.net/)
+[인터파크티켓](http://ticket.interpark.com/)
