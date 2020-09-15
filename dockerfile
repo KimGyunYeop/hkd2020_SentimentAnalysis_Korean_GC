@@ -42,8 +42,4 @@ ENV MODEL_MODE None
 ENV TEST False
 
 
-CMD if ["$TEST"="False"]; then\
-python3 train.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0;\
-else\
-python3 test.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0;\
-fi
+CMD if ["$TEST"="False"]; then python3 train.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0; else python3 test.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0; fi
