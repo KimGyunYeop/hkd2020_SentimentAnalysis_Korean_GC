@@ -1,7 +1,7 @@
 # SentimentAnalysis_korean_GC   
 2020 국어 정보처리 시스템 경진대회 지정분야 출품작입니다.   
 
-# DISCRIPTION   
+# DESCRIPTION   
 
 ### Star-N    
 기존의 downstream task의 feature가 상대적으로 덜 입력되던 pre-trained model에 downstream의 label에 따른 feature를 더 적용시킬 수 있도록 제작한 model   
