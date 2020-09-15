@@ -21,7 +21,7 @@ WORKDIR /app
 COPY . /app
 
 
-
+RUN pwd
 
 # Install any needed packages specified in requirements.txt
 
