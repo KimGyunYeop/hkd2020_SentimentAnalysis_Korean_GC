@@ -96,8 +96,8 @@ class AugmentBaseDataset(Dataset):
 
 
 DATASET_LIST = {
-    "StarV_ANN": BaseDataset,
-    "StarV_AM" : BaseDataset,
+    "Star_Label_ANN": BaseDataset,
+    "Star_Label_AM" : BaseDataset,
     "KOSAC_LSTM_ATT": BaseDataset,
     "VoSenti_for_Word": BaseDataset,
     "ENSEMBLE_MODEL" : BaseDataset

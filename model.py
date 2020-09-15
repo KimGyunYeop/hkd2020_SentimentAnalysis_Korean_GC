@@ -7,9 +7,9 @@ from src import (
 )
 
 
-class StarV_AM(nn.Module):
+class Star_Label_AM(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
-        super(StarV_AM, self).__init__()
+        super(Star_Label_AM, self).__init__()
         self.emb = MODEL_ORIGINER[model_type].from_pretrained(
             model_name_or_path,
             config=config)
@@ -60,9 +60,9 @@ class StarV_AM(nn.Module):
         return result
 
 
-class StarV_ANN(nn.Module):
+class Star_Label_ANN(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
-        super(StarV_ANN, self).__init__()
+        super(Star_Label_ANN, self).__init__()
         self.emb = MODEL_ORIGINER[model_type].from_pretrained(
             model_name_or_path,
             config=config)
@@ -350,8 +350,8 @@ class ENSEMBLE_MODEL(nn.Module):
 
 
 MODEL_LIST = {
-    "StarV_ANN": StarV_ANN,
-    "StarV_AM" : StarV_AM,
+    "Star_Label_AM": Star_Label_AM,
+    "Star_Label_ANN" : Star_Label_ANN,
     "KOSAC_LSTM_ATT": KOSAC_LSTM_ATT,
     "VoSenti_for_Word": VoSenti_for_Word,
     "ENSEMBLE_MODEL":ENSEMBLE_MODEL
