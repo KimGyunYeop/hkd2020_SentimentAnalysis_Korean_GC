@@ -7,3 +7,4 @@ seqeval
 fastprogress
 attrdict
 pandas
+openpyxl
