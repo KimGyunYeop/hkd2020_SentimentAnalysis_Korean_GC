@@ -24,10 +24,11 @@ pip install -r requirement.txt
 python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsmc_ratings_train.txt --gpu 0
 ```   
 
-### DOCKER(ONLY TRAIN)
+### DOCKER(ONLY TRAIN)   
+--gpus all은 container에서 gpu를 사용하기위한 NVIDIA-DOCKER 명령어 이므로 NVIDIA-DOCKER와 nvidia-container-toolkit필요 [link](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md#quickstart)
 ```
 sudo docker build --tag hkd2020 .   
-docker run --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
+sudo docker run --gpus all --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
 ```   
 
 # RESULT   
