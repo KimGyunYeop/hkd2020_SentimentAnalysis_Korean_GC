@@ -17,7 +17,7 @@ pip install -r requirement.txt
 python3 train.py --result_dir VoSenti_for_Word_add_aug --model_mode VoSenti_for_Word --gpu 0
 ```   
 
-### DOCKER
+### DOCKER(ONLY TRAIN)
 ```
 sudo docker build --tag hkd2020 .   
 sudo docker run hkd2020
