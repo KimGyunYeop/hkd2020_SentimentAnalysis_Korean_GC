@@ -226,7 +226,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds, axis=1)
 
-    result = compute_metrics("nsmc", out_label_ids, preds)
+    result = compute_metrics(out_label_ids, preds)
     results.update(result)
 
     output_dir = os.path.join(args.output_dir, mode)

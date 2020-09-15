@@ -9,7 +9,8 @@ from datasets import DATASET_LIST
 import pandas as pd
 
 from model import *
-
+from attrdict import AttrDict
+import json
 
 from src import (
     CONFIG_CLASSES,
@@ -92,7 +93,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds, axis=1)
 
-    result = compute_metrics(args.task, out_label_ids, preds)
+    result = compute_metrics(out_label_ids, preds)
     results.update(result)
 
     output_dir = os.path.join(args.output_dir, mode)
@@ -120,6 +121,11 @@ def main(cli_args):
     max_checkpoint = "checkpoint-best"
 
     args = torch.load(os.path.join("ckpt", cli_args.result_dir, max_checkpoint, "training_args.bin"))
+    args.test_file = cli_args.test_file
+    with open(os.path.join(cli_args.config_dir, cli_args.config_file)) as f:
+        args.data_dir = AttrDict(json.load(f)).data_dir
+        if args.test_file == None:
+            args.data_dir = AttrDict(json.load(f)).test_file
     logger.info("Testing parameters {}".format(args))
 
     args.model_mode = cli_args.model_mode
@@ -182,6 +188,7 @@ if __name__ == '__main__':
     cli_parser.add_argument("--config_file", type=str, default="koelectra-base.json")
     cli_parser.add_argument("--result_dir", type=str, required=True)
     cli_parser.add_argument("--model_mode", type=str, required=True, choices=MODEL_LIST.keys())
+    cli_parser.add_argument("--test_file", type=str, default=None)
     cli_parser.add_argument("--gpu", type=str, default = 0)
 
     cli_args = cli_parser.parse_args()
