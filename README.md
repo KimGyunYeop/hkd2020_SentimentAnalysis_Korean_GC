@@ -31,11 +31,20 @@ docker run --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
 ```   
 
 # RESULT   
-|모델|batch size|Dev 결과(정확도)|
-|:---:|:---:|:---:|
-|m1|128|acc1|
-|m2|128|acc2|
-|m3|128|acc3|
+### NSMC   
+|모델|Dev 결과(Accuracy)|
+|:---:|:---:|
+|KoELECTRA(base)|0.90210|
+|Star_Label_AM|0.90332|
+|Star_Label_ANN|0.90362|
+|VoSenti_for_Word|0.90430|
+
+
+### ADDITIONAL DATA   
+|모델|Dev 결과(Accuracy)|
+|:---:|:---:|
+|KoELECTRA(base)|0.90332|
+|VoSenti_for_Word|0.90528|
 
 # REFERENCE     
 [KoELECTRA](https://github.com/monologg/KoELECTRA)   
