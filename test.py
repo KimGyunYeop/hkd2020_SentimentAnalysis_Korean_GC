@@ -127,6 +127,7 @@ def main(cli_args):
         args.data_dir = config["data_dir"]
         if args.test_file == None:
             args.data_dir = config["test_file"]
+    print(args)
     logger.info("Testing parameters {}".format(args))
 
     args.model_mode = cli_args.model_mode
