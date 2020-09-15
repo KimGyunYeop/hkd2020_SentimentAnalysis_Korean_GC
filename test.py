@@ -123,9 +123,9 @@ def main(cli_args):
     args = torch.load(os.path.join("ckpt", cli_args.result_dir, max_checkpoint, "training_args.bin"))
     args.test_file = cli_args.test_file
     with open(os.path.join(cli_args.config_dir, cli_args.config_file)) as f:
-        args.data_dir = AttrDict(json.load(f)).data_dir
+        args.data_dir = json.load(f)["data_dir"]
         if args.test_file == None:
-            args.data_dir = AttrDict(json.load(f)).test_file
+            args.data_dir = json.load(f)["test_file"]
     logger.info("Testing parameters {}".format(args))
 
     args.model_mode = cli_args.model_mode
