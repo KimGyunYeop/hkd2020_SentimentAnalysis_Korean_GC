@@ -7,7 +7,7 @@
 기존의 downstream task의 feature가 상대적으로 덜 입력되던 pre-trained model에 downstream의 label에 따른 feature를 더 적용시킬 수 있도록 제작한 model   
 
 ### VoSenti   
-각 단어마다 감성 정보를 직접 학습하여 더해줌으로써 단어의 vector을 감성정보와 위치벡터를 합한 으로 변환 시켜주는 model  
+모델 스스로가 각 단어마다 감성 정보를 직접 학습하여 더해줌으로써 단어의 vector를 감성정보와 위치벡터를 합한 값으로 변환 시켜 vector가 감성정보를 반영하여 학습될 수 있도록 한 model
 
 # USAGE   
 config/koelectra-base.json을 통해 모델의 parameter를 조정 가능   
