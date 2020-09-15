@@ -21,7 +21,7 @@ python3 train.py --result_dir train --model_mode VoSenti_for_Word --gpu 0
 #### test    
 ```
 pip install -r requirements.txt   
-python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsmc_ratings_train.txt --gpu 0
+python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsmc_ratings_test.txt --gpu 0
 ```   
 
 ### DOCKER(ONLY TRAIN&EVAL)   
