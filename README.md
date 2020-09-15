@@ -12,15 +12,22 @@
 # USAGE   
 config/koelectra-base.json을 통해 모델의 parameter를 조정 가능   
 ### PYTHON   
+#### train    
 ```
 pip install -r requirement.txt   
-python3 train.py --result_dir VoSenti_for_Word_add_aug --model_mode VoSenti_for_Word --gpu 0
+python3 train.py --result_dir train --model_mode VoSenti_for_Word --gpu 0
+```   
+
+#### test    
+```
+pip install -r requirement.txt   
+python3 test.py --result_dir train --model_mode VoSenti_for_Word --gpu 0
 ```   
 
 ### DOCKER(ONLY TRAIN)
 ```
 sudo docker build --tag hkd2020 .   
-sudo docker run hkd2020
+docker run --rm -e RESULT_DIR=train -e MODEL_MODE=VoSenti_for_Word hkd2020
 ```   
 
 # RESULT   
