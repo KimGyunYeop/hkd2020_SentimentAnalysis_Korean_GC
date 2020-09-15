@@ -37,9 +37,11 @@ EXPOSE 80
  # Define environment variable
 
 ENV NAME World
+ENV result_dir=default_token
+ENV result_dir=default_token
 
 
 
  # Run app.py when the container launches
 
-CMD python train.py --result_dir StarV_AM --model_mode StarV_AM
+CMD ["python","train.py"," --result_dir $result_dir"," --model_mode $model_mode"]
