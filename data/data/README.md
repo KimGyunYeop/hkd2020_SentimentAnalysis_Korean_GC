@@ -54,23 +54,34 @@
 - crawling articles that had been posted until midnight on the day of the game
 - rows
 
+
+#sports_interpark_Reviews.txt
+- crawling data about reviews from spectators of  "키움 vs. LG" baseball game (interpark ticket)
+- 1210 rows
+
 #sports_auc.txt
 - crawling data about reviews from spectators of  "키움 vs. sk" baseball game (interpark ticket)
+- 499 rows
 
 #sports_auc2.txt
 - crawling data about reviews from spectators of  "두산 vs. sk" baseball game (interpark ticket)
+- 301 rows
 
 #sports_auc_basketball.txt
 - crawling data about reviews from spectators of football game which "전주 KCC 이지스 프로농구단" has participated (interpark ticket)
+- 133 rows
 
 #sports_auc_football.txt
 - crawling data about reviews from spectators of football game which "수원FC 프로축구단" has participated (interpark ticket)
+- 8 rows
 
 #sports_auc_football_2.txt
 - crawling data about reviews from spectators of football game which "대전하나시티즌" has participated (interpark ticket)
+- 24 rows
 
 #sports_auc_golf.txt
 - crawling data about reviews from spectators of "기아자동차 제33회 한국여자오픈 골프선수권대회" (interpark ticket)
+- 24 rows
 
 #REFERENCE   
 [네이버 영화](https://movie.naver.com/)
