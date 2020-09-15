@@ -14,13 +14,13 @@ config/koelectra-base.json을 통해 모델의 parameter를 조정 가능
 ### PYTHON   
 #### train & eval    
 ```
-pip install -r requirement.txt   
+pip install -r requirements.txt   
 python3 train.py --result_dir train --model_mode VoSenti_for_Word --gpu 0
 ```   
 
 #### test    
 ```
-pip install -r requirement.txt   
+pip install -r requirements.txt   
 python3 test.py --result_dir train --model_mode VoSenti_for_Word --test_file nsmc_ratings_train.txt --gpu 0
 ```   
 
