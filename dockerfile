@@ -43,4 +43,4 @@ ENV MODEL_MODE None
 ENV TEST False
 
 
-CMD python3 train.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0
+CMD python3 -u train.py --result_dir $RESULT_DIR --model_mode $MODEL_MODE --gpu 0
