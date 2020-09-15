@@ -25,34 +25,34 @@
 #samsung_reviews_contents.txt 
 - crawling data about baseball team 'Samsung Lions' fan site's bulletin board - only contents (sports category)
 - crawling with articles posted after the game hours to midnight on the day the game was lost judging them as negative reviews.
-- 10515rows
+- 10515 rows
 
 #kiumHeroes_Reviews_titles.csv
 - crawling data about baseball team 'Kium Heroes' fan site's bulletin board - only titles (sports category)
 - crawling the articles on the day of the game
-- rows
+- 885 rows
 #kiumHeroes_Reviews_contents.csv
 - crawling data about baseball team 'Kium Heroes' fan site's bulletin board - only contents (sports category)
 - crawling the articles on the day of the game
-- rows
+- 885 rows
 
 #hanwhaEagles_Reviews_titles.csv
 - crawling data about baseball team 'Hanwha Eagles' fan site's bulletin board - only titles (sports category)
 - crawling the articles on the day of the game
-- rows
+- 32 rows
 #hanwhaEagles_Reviews_contents.csv
 - crawling data about baseball team 'Hanwha Eagles' fan site's bulletin board - only contents (sports category)
 - crawling the articles on the day of the game
-- rows
+- 32 rows
 
 #ncDinos_Reviews_titles.csv
 - crawling data about baseball team 'NC Dinos' fan site's bulletin board - only titles (sports category)
 - crawling articles that had been posted until midnight on the day of the game
-- rows
+- 327 rows
 #ncDinos_Reviews_contents.csv
 - crawling data about baseball team 'NC Dinos' fan site's bulletin board - only contents (sports category)
 - crawling articles that had been posted until midnight on the day of the game
-- rows
+- 327 rows
 
 
 #sports_interpark_Reviews.txt
