@@ -12,7 +12,7 @@ from transformers import (
     get_linear_schedule_with_warmup
 )
 
-from datasets import DATASET_LIST
+from datasets import DATASET_LIST, BaseDataset
 from model import *
 from src import (
     CONFIG_CLASSES,
@@ -282,8 +282,8 @@ def main(cli_args):
 
     # Load dataset
     train_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="train") if args.train_file else None
-    dev_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="dev") if args.dev_file else None
-    test_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="test") if args.test_file else None
+    dev_dataset = BaseDataset(args, tokenizer, mode="dev") if args.dev_file else None
+    test_dataset = BaseDataset(args, tokenizer, mode="test") if args.test_file else None
 
     args.logging_steps = int(len(train_dataset) / args.train_batch_size) + 2
     args.save_steps = args.logging_steps
