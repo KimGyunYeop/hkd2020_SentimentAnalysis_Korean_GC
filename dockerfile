@@ -38,10 +38,10 @@ EXPOSE 80
 
 ENV NAME World
 ENV result_dir=default_token
-ENV result_dir=default_token
+ENV model_mode=default_token
 
 
 
  # Run app.py when the container launches
 
-CMD ["sh","-c","python","train.py"," --result_dir $result_dir"," --model_mode $model_mode"]
+CMD ["sh","train.sh","$result_dir","$model_mode"]
