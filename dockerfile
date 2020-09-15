@@ -37,8 +37,8 @@ EXPOSE 80
  # Define environment variable
 
 ENV NAME World
-ENV RESULT_DIR
-ENV MODEL_MODE
+ENV RESULT_DIR None
+ENV MODEL_MODE None
 
 
 
