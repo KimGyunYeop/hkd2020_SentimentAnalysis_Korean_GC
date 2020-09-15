@@ -1,1 +1,1 @@
-python3 test.py --task nsmc --config_file koelectra-base.json --result_dir VoSenti_for_Word --model_mode VoSenti_for_Word --gpu 0
+python3 test.py -result_dir VoSenti_for_Word --model_mode VoSenti_for_Word --gpu 0
