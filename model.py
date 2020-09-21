@@ -75,6 +75,7 @@ class Star_Label_AM_att(nn.Module):
         self.config = config
         self.gelu = nn.GELU()
         self.tanh = nn.Tanh()
+        self.att_w = nn.Parameter(torch.randn(1, 768, 1))
 
     def attention_net(self, lstm_output, input):
         batch_size, seq_len = input.shape
