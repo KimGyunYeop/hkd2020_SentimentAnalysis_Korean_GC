@@ -1,1 +1,1 @@
-python3 train.py --result_dir $1 --model_mode $2 --gpu 0
+python3 -u train.py --result_dir ensemble_2 --model_mode ENSEMBLE_MODEL2 --gpu 0
