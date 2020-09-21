@@ -318,9 +318,6 @@ class ENSEMBLE_MODEL(nn.Module):
         attention_outputs = self.attention_net(sentiment_outputs, input_ids)
         sentance_emb_out = outputs[0][:, 0, :]
 
-        print(attention_outputs.shape)
-        print(sentance_emb_out.shape)
-        print(torch.cat((attention_outputs, sentance_emb_out), -1).shape)
         concat_output = torch.cat((attention_outputs, sentance_emb_out), -1)
 
         outputs = self.dense(concat_output)
