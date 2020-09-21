@@ -310,7 +310,7 @@ class ENSEMBLE_MODEL(nn.Module):
         embs = outputs[0]
         batch_size, seq_len, w2v_dim = embs.shape
 
-        sentiment_outputs = self.sentiment_net(outputs[0][1:])
+        sentiment_outputs = self.sentiment_net(outputs[0][:,1:,:])
 
         sentiment_outputs, (h, _) = self.lstm(sentiment_outputs)
 
