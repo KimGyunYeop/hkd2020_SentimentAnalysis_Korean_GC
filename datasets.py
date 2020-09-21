@@ -101,5 +101,6 @@ DATASET_LIST = {
     "KOSAC_LSTM_ATT": BaseDataset,
     "VoSenti_for_Word": BaseDataset,
     "ENSEMBLE_MODEL" : BaseDataset,
-    "ENSEMBLE_MODEL2": BaseDataset
+    "ENSEMBLE_MODEL2": BaseDataset,
+    "Star_Label_AM_att": BaseDataset
 }

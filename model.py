@@ -515,5 +515,6 @@ MODEL_LIST = {
     "KOSAC_LSTM_ATT": KOSAC_LSTM_ATT,
     "VoSenti_for_Word": VoSenti_for_Word,
     "ENSEMBLE_MODEL":ENSEMBLE_MODEL,
-    "ENSEMBLE_MODEL2": ENSEMBLE_MODEL2
+    "ENSEMBLE_MODEL2": ENSEMBLE_MODEL2,
+    "Star_Label_AM_att": Star_Label_AM_att
 }
