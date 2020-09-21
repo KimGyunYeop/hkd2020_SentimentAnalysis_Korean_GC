@@ -369,7 +369,7 @@ class ENSEMBLE_MODEL2(nn.Module):
         # attention module
         self.att_w = nn.Parameter(torch.randn(1, 768, 1))
 
-        self.dense = nn.Linear(768*2, 768)
+        self.dense = nn.Linear(768, 768)
         self.dropout = nn.Dropout(0.2, inplace=False)
         self.out_proj = nn.Linear(768, 2)
         self.star_emb = nn.Embedding(2, 768)
