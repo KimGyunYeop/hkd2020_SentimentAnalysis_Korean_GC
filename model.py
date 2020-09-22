@@ -421,11 +421,10 @@ class ENSEMBLE_MODEL(nn.Module):
 
 class ENSEMBLE_MODEL2(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
-        super(ENSEMBLE_MODEL2, self).__init__()
+        super(VoSenti_for_Word, self).__init__()
         self.emb = MODEL_ORIGINER[model_type].from_pretrained(
             model_name_or_path,
             config=config)
-
         self.config = config
         self.lstm = nn.LSTM(768, 768, batch_first=True, bidirectional=False)
 
@@ -437,12 +436,9 @@ class ENSEMBLE_MODEL2(nn.Module):
         self.att_w = nn.Parameter(torch.randn(1, 768, 1))
 
         self.dense = nn.Linear(768, 768)
-        self.dropout = nn.Dropout(0.2, inplace=False)
+        self.dropout = nn.Dropout(0.2)
         self.out_proj = nn.Linear(768, 2)
-        self.star_emb = nn.Embedding(2, 768)
-        self.tanh = nn.Tanh()
         self.gelu = nn.GELU()
-        #test
 
     def attention_net(self, lstm_output, input):
         batch_size, seq_len = input.shape
@@ -457,6 +453,8 @@ class ENSEMBLE_MODEL2(nn.Module):
     def sentiment_net(self, lstm_outputs):
         result = self.word_dense(lstm_outputs)
         sig_output = self.softmax(result)
+        # for i, output in enumerate(sig_output.tolist()):
+        #    print("vector:",i,output)
         batch_size, max_len, _ = sig_output.shape
         zeros = torch.zeros(batch_size, max_len, dtype=torch.long).to(self.config.device)
         ones = torch.ones(batch_size, max_len, dtype=torch.long).to(self.config.device)
@@ -467,17 +465,17 @@ class ENSEMBLE_MODEL2(nn.Module):
         return senti_output
 
     def forward(self, input_ids, attention_mask, labels, token_type_ids):
-        # print(input_ids)
-        outputs = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
-        embs = outputs[0]
+        # embedding
+        emb_output = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
+        embs = emb_output[0]
         batch_size, seq_len, w2v_dim = embs.shape
 
-        sentiment_outputs = self.sentiment_net(outputs[0])
+        sentiment_outputs = self.sentiment_net(emb_output[0])
 
-        sentiment_outputs, (h, _) = self.lstm(sentiment_outputs)
+        outputs, (h, _) = self.lstm(sentiment_outputs)
 
         # attention
-        attention_outputs = self.attention_net(sentiment_outputs, input_ids)
+        attention_outputs = self.attention_net(outputs, input_ids)
 
         outputs = self.dense(attention_outputs)
         outputs = self.gelu(outputs)
@@ -507,7 +505,7 @@ class ENSEMBLE_MODEL2(nn.Module):
                         star,
                         torch.ones(batch_size).to(self.config.device))
 
-        result = ((loss1, 0.5* loss2, 0.5* loss3), outputs)
+        result = ((loss1, 0.5 * loss2, 0.5 * loss3), outputs)
         return result
 
 MODEL_LIST = {
