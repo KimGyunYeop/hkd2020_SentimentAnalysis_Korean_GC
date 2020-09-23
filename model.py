@@ -438,6 +438,7 @@ class ENSEMBLE_MODEL2(nn.Module):
         self.dense = nn.Linear(768, 768)
         self.dropout = nn.Dropout(0.2)
         self.out_proj = nn.Linear(768, 2)
+        self.star_emb = nn.Embedding(2, 768)
         self.gelu = nn.GELU()
 
     def attention_net(self, lstm_output, input):
