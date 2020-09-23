@@ -421,7 +421,7 @@ class ENSEMBLE_MODEL(nn.Module):
 
 class ENSEMBLE_MODEL2(nn.Module):
     def __init__(self, model_type, model_name_or_path, config):
-        super(VoSenti_for_Word, self).__init__()
+        super(ENSEMBLE_MODEL2, self).__init__()
         self.emb = MODEL_ORIGINER[model_type].from_pretrained(
             model_name_or_path,
             config=config)
