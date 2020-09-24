@@ -106,7 +106,6 @@ def train(args,
 
             if type(loss) == tuple:
                 # print(list(map(lambda x:x.item(),loss)))
-                print(loss)
                 ep_loss.append(list(map(lambda x: x.item(), loss)))
                 loss = sum(loss)
             else:
@@ -253,7 +252,7 @@ def main(cli_args):
         args = AttrDict(json.load(f))
     logger.info("Training/evaluation parameters {}".format(args))
     logger.info("cliargs parameters {}".format(cli_args))
-    os.environ["CUDA_VISIBLE_DEVICES"] = cli_args.gpu
+
 
     args.output_dir = os.path.join(args.ckpt_dir, cli_args.result_dir)
     args.model_mode = cli_args.model_mode
@@ -274,13 +273,12 @@ def main(cli_args):
         do_lower_case=args.do_lower_case
     )
     # GPU or CPU
-    args.device = "cuda".format(cli_args.gpu) if torch.cuda.is_available() and not args.no_cuda else "cpu"
+    args.device = "cuda:{}".format(cli_args.gpu) if torch.cuda.is_available() and not args.no_cuda else "cpu"
     config.device = args.device
     args.model_mode = cli_args.model_mode
 
     model = MODEL_LIST[cli_args.model_mode](args.model_type, args.model_name_or_path, config)
-    model = torch.nn.DataParallel(model, output_device=1)
-    model.cuda()
+    model.to(args.device)
 
     # Load dataset
     train_dataset = DATASET_LIST[cli_args.model_mode](args, tokenizer, mode="train") if args.train_file else None
