@@ -106,6 +106,7 @@ def train(args,
 
             if type(loss) == tuple:
                 # print(list(map(lambda x:x.item(),loss)))
+                print(loss)
                 ep_loss.append(list(map(lambda x: x.item(), loss)))
                 loss = sum(loss)
             else:
