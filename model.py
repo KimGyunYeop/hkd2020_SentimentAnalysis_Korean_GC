@@ -395,27 +395,45 @@ class ENSEMBLE_MODEL(nn.Module):
         loss_fct = nn.CrossEntropyLoss()
         loss1 = loss_fct(outputs.view(-1, 2), labels.view(-1))
 
-        x1 = embs[:, 0, :].squeeze()
-        x1 = x1.repeat(1, batch_size)
-        x1 = x1.view(batch_size, batch_size, w2v_dim)
-        x2 = embs[:, 0, :].squeeze()
-        x2 = x2.unsqueeze(0)
-        x2 = x2.repeat(batch_size, 1, 1)
-        y = labels.unsqueeze(0).repeat(batch_size, 1).type(torch.FloatTensor).to(self.config.device)
-        for i, t in enumerate(y):
-            y[i] = (t == t[i]).double() * 2 - 1
-        loss_fn = torch.nn.CosineEmbeddingLoss(reduction='mean', margin=-0.5)
-        loss2 = loss_fn(x1.view(-1, w2v_dim),
-                        x2.view(-1, w2v_dim),
-                        y.view(-1))
+        # get data each label
+        labels_2 = labels.type(torch.FloatTensor).to(self.config.device)
+        for i in range(len(labels_2)):
+            labels_2[i] = labels_2[i].double() * 2 - 1
+        p_idx = (labels_2 == 1).nonzero().to(self.config.device)
+        n_idx = (labels_2 == -1).nonzero().to(self.config.device)
 
+        x1 = embs[:, 0, :].squeeze()
+        x1_p = x1[p_idx]
+        x1_n = x1[n_idx]
+        len_p = len(x1_p)
+        len_n = len(x1_n)
+
+        # calculate negative sampling loss
+        loss_fn = torch.nn.CosineEmbeddingLoss(reduction='mean', margin=-0.5)
+        if len_p != 0 and len_n != 0:
+            x1_p = x1_p.squeeze()
+            x1_p = x1_p.repeat(1, len_n)
+            x1_p = x1_p.view(-1, w2v_dim)
+            x1_n = x1_n.squeeze().repeat(len_p, 1)
+
+            y = -torch.ones(len_p * len_n).type(torch.FloatTensor).to(self.config.device)
+
+            loss2 = loss_fn(x1_p.view(-1, w2v_dim),
+                            x1_n.view(-1, w2v_dim),
+                            y.view(-1))
+
+        # calculate loss with same label's represntation vector
         star = self.star_emb(labels)
 
         loss3 = loss_fn(embs[:, 0, :].squeeze(),
                         star,
                         torch.ones(batch_size).to(self.config.device))
 
-        result = ((loss1, 0.5* loss2, 0.5* loss3), outputs)
+        if len_p == 0 or len_n == 0:
+            result = ((loss1, torch.tensor(0), loss3), outputs)
+        else:
+            result = ((loss1, 0.5 * loss2, 0.5 * loss3), outputs)
+
         return result
 
 
