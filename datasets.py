@@ -100,7 +100,6 @@ DATASET_LIST = {
     "Star_Label_AM" : BaseDataset,
     "KOSAC_LSTM_ATT": BaseDataset,
     "VoSenti_for_Word": BaseDataset,
-    "ENSEMBLE_MODEL" : BaseDataset,
-    "ENSEMBLE_MODEL2": BaseDataset,
+    "FINAL_MODEL" : BaseDataset,
     "Star_Label_AM_att": BaseDataset
 }
