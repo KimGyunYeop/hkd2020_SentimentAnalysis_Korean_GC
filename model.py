@@ -474,9 +474,8 @@ class FINAL_MODEL_2(nn.Module):
         embs = outputs[0]
         batch_size, seq_len, w2v_dim = embs.shape
 
-        CLS_output = outputs[0][:,0,:].unsqueeze(1).repeat(1,self.maxlen-2,1)
-        SEP_output = outputs[0][:, -1, :].unsqueeze(1).repeat(1, self.maxlen - 2, 1)
-        emb_total_output = torch.tanh(outputs[0][:,1:-1,:] + CLS_output + SEP_output)
+        CLS_output = outputs[0][:,0,:].unsqueeze(1).repeat(1,self.maxlen-1,1)
+        emb_total_output = torch.tanh(outputs[0][:,1:,:] + CLS_output)
 
         sentiment_outputs = self.sentiment_net(emb_total_output)
 
