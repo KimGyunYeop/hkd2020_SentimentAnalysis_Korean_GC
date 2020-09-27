@@ -36,6 +36,7 @@ class AugmentBaseDataset(Dataset):
         super(AugmentBaseDataset,self).__init__()
         self.tokenizer = tokenizer
         self.maxlen = args.max_seq_len
+        self.mode = mode
         if "train" in mode:
             data_path = os.path.join(args.data_dir, args.train_file)
         elif "dev" in mode:
