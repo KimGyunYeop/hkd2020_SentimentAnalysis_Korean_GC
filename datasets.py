@@ -83,9 +83,11 @@ class AugmentBaseDataset(Dataset):
 
     def __getitem__(self, idx):
         txt = str(self.dataset.at[idx,"review"])
-        lexicon_words= list(set(self.re_compile_words.findall(txt)))
-        for word in lexicon_words:
-            txt = txt.replace(word, random.choice(self.lexicon_dic[word]))
+        if "train" in self.mode:
+            lexicon_words = list(set(self.re_compile_words.findall(txt)))
+            if len(lexicon_words)>0:
+                word = random.choice(lexicon_words)
+                txt = txt.replace(word, random.choice(self.lexicon_dic[word]))
         data = self.tokenizer(txt, pad_to_max_length=True, max_length=self.maxlen, truncation=True)
         input_ids = torch.LongTensor(data["input_ids"])
         token_type_ids = torch.LongTensor(data["token_type_ids"])
@@ -100,6 +102,7 @@ DATASET_LIST = {
     "Star_Label_AM" : BaseDataset,
     "KOSAC_LSTM_ATT": BaseDataset,
     "VoSenti_for_Word": BaseDataset,
-    "FINAL_MODEL" : BaseDataset,
+    "FINAL_MODEL" : AugmentBaseDataset,
+    "FINAL_MODEL_2" : AugmentBaseDataset,
     "Star_Label_AM_att": BaseDataset
 }
