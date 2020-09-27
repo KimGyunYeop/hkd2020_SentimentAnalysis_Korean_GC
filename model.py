@@ -304,7 +304,7 @@ class VoSenti_for_Word(nn.Module):
         # embedding
         emb_output = self.emb(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
 
-        sentiment_outputs = self.sentiment_net(emb_output[0])
+        sentiment_outputs = self.sentiment_net(emb_output[0][:,1:,:])
 
         outputs, (h,_) = self.lstm(sentiment_outputs)
 
