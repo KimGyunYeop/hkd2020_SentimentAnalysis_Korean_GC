@@ -103,6 +103,5 @@ DATASET_LIST = {
     "KOSAC_LSTM_ATT": BaseDataset,
     "VoSenti_for_Word": AugmentBaseDataset,
     "FINAL_MODEL" : AugmentBaseDataset,
-    "FINAL_MODEL_2" : AugmentBaseDataset,
     "Star_Label_AM_att": BaseDataset
 }
