@@ -40,6 +40,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     intensity_ids = None
     out_label_ids = None
     txt_all = []
+    ep_loss = []
 
     for (batch, txt) in progress_bar(eval_dataloader):
         model.eval()
@@ -69,6 +70,13 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
 
             outputs = model(**inputs)
             tmp_eval_loss, logits = outputs[:2]
+
+            if type(tmp_eval_loss) == tuple:
+                # print(list(map(lambda x:x.item(),tmp_eval_loss)))
+                ep_loss.append(list(map(lambda x: x.item(), tmp_eval_loss)))
+                tmp_eval_loss = sum(tmp_eval_loss)
+            else:
+                ep_loss.append([tmp_eval_loss.item()])
 
             eval_loss += tmp_eval_loss.mean().item()
         nb_eval_steps += 1
