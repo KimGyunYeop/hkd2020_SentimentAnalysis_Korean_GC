@@ -48,6 +48,8 @@ sudo docker run --gpus all --rm -e RESULT_DIR=train -e MODEL_MODE=FINAL_MODEL hk
 |VoSenti_for_Word|0.90528|
 |FINAL_MODEL|0.90612|
 
+[data discription](https://github.com/KimGyunYeop/hkd2020_SentimentAnalysis_Korean_GC/tree/master/data/data)
+
 # REFERENCE     
 [KoELECTRA](https://github.com/monologg/KoELECTRA)   
 [nsmc](https://github.com/e9t/nsmc)
